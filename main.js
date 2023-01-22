@@ -34,6 +34,7 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
 
 // Scene
 const scene = new THREE.Scene();
@@ -49,15 +50,28 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(-10, 30, 30)
 
 // Light
-const ambientLight = new THREE.AmbientLight(0x333333);
-const directionaLight = new THREE.DirectionalLight(0xffffff);
+// const ambientLight = new THREE.AmbientLight(0x333333);
+// const directionalLight = new THREE.DirectionalLight(0xffffff);
 
-directionaLight.position.set(10, 10, 0);
-directionaLight.castShadow = true;
-scene.add(ambientLight, directionaLight);
+// directionalLight.position.set(10, 10, 0);
+// directionalLight.castShadow = true;
+// directionalLight.shadow.camera.bottom = -12
+// scene.add(ambientLight, directionalLight);
 
-const dLightHelper = new THREE.DirectionalLightHelper(directionaLight, 5);
-scene.add(dLightHelper);
+// const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+// const dLightShadowHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+// scene.add(dLightHelper, dLightShadowHelper);
+
+const spotLight = new THREE.SpotLight(0xffffff);
+spotLight.position.set(-20, 20, 0);
+spotLight.target.position.set(0, 0, 0)
+const sLightShadowHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+spotLight.castShadow = true;
+spotLight.angle = 0.5
+scene.add(spotLight, sLightShadowHelper);
+
+const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(spotLightHelper)
 
 // Axes Helper
 const axesHelper = new THREE.AxesHelper(5);
