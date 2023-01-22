@@ -49,15 +49,17 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(-10, 30, 30)
 
 // Light
-const ambientLight = new THREE.AmbientLight(0x333333);
-const directionaLight = new THREE.DirectionalLight(0xffffff);
+// const ambientLight = new THREE.AmbientLight(0x333333);
+// const directionalLight = new THREE.DirectionalLight(0xffffff);
 
-directionaLight.position.set(10, 10, 0);
-directionaLight.castShadow = true;
-scene.add(ambientLight, directionaLight);
+// directionalLight.position.set(10, 10, 0);
+// directionalLight.castShadow = true;
+// directionalLight.shadow.camera.bottom = -12
+// scene.add(ambientLight, directionalLight);
 
-const dLightHelper = new THREE.DirectionalLightHelper(directionaLight, 5);
-scene.add(dLightHelper);
+// const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+// const dLightShadowHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+// scene.add(dLightHelper, dLightShadowHelper);
 
 // Axes Helper
 const axesHelper = new THREE.AxesHelper(5);
