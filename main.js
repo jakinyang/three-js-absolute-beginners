@@ -17,6 +17,12 @@ Camera
   - Left, Right, Top, Bottom
   - Clipping Point
 Lights
+- Ambient Light
+  - e.g. Light in your room
+- Directional Light
+  - e.g. ray of sun
+- Spot Light
+  - e.g. cone like street lamp beam
 Objects
 Actors
 */
@@ -42,14 +48,25 @@ const camera = new THREE.PerspectiveCamera(
 
 camera.position.set(-10, 30, 30)
 
+// Light
+const ambientLight = new THREE.AmbientLight(0x333333);
+const directionaLight = new THREE.DirectionalLight(0xffffff);
+
+directionaLight.position.set(10, 10, 0);
+directionaLight.castShadow = true;
+scene.add(ambientLight, directionaLight);
+
+const dLightHelper = new THREE.DirectionalLightHelper(directionaLight, 5);
+scene.add(dLightHelper);
+
 // Axes Helper
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 
 // Box
 const box = new THREE.Mesh(
-  new THREE.BoxGeometry(3, 3, 3),
-  new THREE.MeshBasicMaterial({
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshStandardMaterial({
     color: 0x00ff00
   })
 )
@@ -58,22 +75,24 @@ scene.add(box);
 // Plane
 const plane = new THREE.Mesh(
   new THREE.PlaneGeometry(30, 30),
-  new THREE.MeshBasicMaterial({
+  new THREE.MeshStandardMaterial({
     color: 0xffffff,
     side: THREE.DoubleSide
   })
 )
 plane.rotation.set(-0.5 * Math.PI, 0, 0)
+plane.receiveShadow = true;
 scene.add(plane);
 
 // Sphere
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(4, 50, 50),
-  new THREE.MeshBasicMaterial({
+  new THREE.MeshStandardMaterial({
     color: 0x0000ff,
   })
-)
-sphere.position.set(-5, 5, 0)
+);
+sphere.position.set(-5, 5, 0);
+sphere.castShadow = true;
 scene.add(sphere);
 
 
