@@ -1,7 +1,8 @@
 import './style.css'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
+import * as dat from 'dat.gui';
+import { ZeroSlopeEnding } from 'three';
 
 /* 
 Core ThreeJS Components
@@ -70,7 +71,6 @@ const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(4, 50, 50),
   new THREE.MeshBasicMaterial({
     color: 0x0000ff,
-    wireframe: true,
   })
 )
 sphere.position.set(-5, 5, 0)
@@ -84,10 +84,34 @@ scene.add(gridHelper);
 // Orbit Controls
 const controls = new OrbitControls(camera, renderer.domElement);
 
+// Dat.gui
+const gui = new dat.GUI();
+
+const options = {
+  sphereColor: '#ffea00',
+  wireframe: false,
+  speed: 0.01
+};
+
+gui.addColor(options, 'sphereColor').onChange(function(e) {
+  sphere.material.color.set(e);
+});
+
+gui.add(options, 'wireframe').onChange(function(e) {
+  sphere.material.wireframe = e;
+})
+
+gui.add(options, 'speed', 0, 0.1);
+
+let step = 0;
+
 function animate() {
   requestAnimationFrame(animate);
   box.rotation.x += 0.001;
   box.rotation.y += 0.001;
+
+  step += options.speed;
+  sphere.position.y = 10 * Math.abs(Math.sin(step));
   renderer.render(scene, camera);
 }
 
